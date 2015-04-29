@@ -1,0 +1,11 @@
+/Users/nameshkher/Documents/Hadoop-WorkSpace/GraphConstructionGiraph/small-graph
+
+Running ConstructGiraphGraph
+------------------------------
+
+hadoop jar target/GraphConstructionGiraph-0.0.1-SNAPSHOT-fatjar.jar bigdatainfrastructure.ConstructGiraphGraph \
+   -input small-graph -output SmallGraph -numReducers 1
+
+   
+hadoop jar target/GraphConstructionGiraph-0.0.1-SNAPSHOT-fatjar.jar bigdatainfrastructure.ConstructGiraphGraph \
+-input friendster_part_graph.txt -output FriendsterGraph -numReducers 1
