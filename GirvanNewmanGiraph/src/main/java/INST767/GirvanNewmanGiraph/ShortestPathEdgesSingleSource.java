@@ -11,8 +11,6 @@ import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.log4j.Logger;
 
-import INST767.GiraphTest.SimpleShortestPathsComputation;
-
 public class ShortestPathEdgesSingleSource
     extends
     BasicComputation<LongWritable, DoubleWritable, FloatWritable, DoubleWritable> {
@@ -41,7 +39,7 @@ public class ShortestPathEdgesSingleSource
 
   /** Class logger */
   private static final Logger LOG = Logger
-      .getLogger(SimpleShortestPathsComputation.class);
+      .getLogger(ShortestPathEdgesSingleSource.class);
 
   /**
    * Is this vertex the source id?
