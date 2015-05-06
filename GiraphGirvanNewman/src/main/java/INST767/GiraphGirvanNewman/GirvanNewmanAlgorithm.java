@@ -1,15 +1,17 @@
 package INST767.GiraphGirvanNewman;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.apache.giraph.conf.LongConfOption;
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -65,18 +67,35 @@ BasicComputation<LongWritable, DoubleWritable, FloatWritable, DoubleWritable> {
     MAX_SUPERSTEPS.set(getConf(), maxSuperSteps);
   }
 
-  public void readNodes(String fileName) throws IOException {
-    System.out.println("Reading source nodes from file into arraylist.");
-    File completePath = new File(fileName);
-    FileReader fileReader = new FileReader(completePath);
-    @SuppressWarnings("resource")
-    BufferedReader bReader = new BufferedReader(fileReader);
-    String line = "";
-    while ((line = bReader.readLine()) != null) {
-      int node = Integer.parseInt(line);
-      sourceNodes.add(node);
+    public void readSourceNodesFromHDFS(String hdfsPath) throws IOException {
+        System.out.println("Reading source nodes from HDFS into arraylist.");
+        Configuration conf = new Configuration();
+        org.apache.hadoop.fs.FileSystem fs = org.apache.hadoop.fs.FileSystem.get(conf);
+        Path path = new Path(hdfsPath);
+        
+        BufferedReader bufferedReader = null;
+        FSDataInputStream fsdis = null;
+        InputStreamReader isr = null;
+        try {
+            fsdis = fs.open(path);
+            isr = new InputStreamReader(fsdis);
+            bufferedReader = new BufferedReader(isr);
+        } catch (Exception e) {
+            System.out
+            .println("Some error occured while opening the file. Please check if the file is being properly made !");
+        }
+        try {
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
+                sourceNodes.add(Integer.parseInt(line));
+            }
+        } catch (Exception e) {
+            LOG.info("Some error occured while reading the file");
+        } finally {
+            bufferedReader.close();
+        }
+        System.out.println("Done reading source nodes");
     }
-  }
 
   /***
    * Send message to all out edges which are the neighbors of the passed vertex
@@ -97,7 +116,7 @@ BasicComputation<LongWritable, DoubleWritable, FloatWritable, DoubleWritable> {
     if (getSuperstep() == 0) {
       setMaxSuperSteps();
       try {
-        readNodes("SourceNodes");
+        readSourceNodesFromHDFS("/user/hdedu6/BigDataInfrastructure-Project/GiraphGirvanNewman/SourceNodes");
       } catch (IOException e) {
         e.printStackTrace();
       }
