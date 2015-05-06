@@ -199,7 +199,27 @@
           <artifactId>hadoop-mapreduce-client-core</artifactId>
           <version>2.5.0-cdh5.3.0</version>
         </dependency>
-      </dependencies> 
+      </dependencies>
+    </profile>
+    
+    <profile>
+        <id>hadoop_2</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/yarn/**</exclude>
+                        </excludes>
+                        <testExcludes>
+                            <exclude>**/yarn/**</exclude>
+                        </testExcludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
     </profile>
     
   </profiles>
