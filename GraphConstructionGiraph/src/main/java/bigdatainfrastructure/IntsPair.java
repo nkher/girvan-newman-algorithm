@@ -76,7 +76,7 @@ public class IntsPair implements WritableComparable<IntsPair> {
 
   @Override
   public String toString() {
-    return "[" + left + "," + right + ",";
+      return "[" + left + ",[" + right + "],";
   }
 
   public String toKeyString() {
