@@ -54,7 +54,7 @@ public class ConstructGiraphGraph extends Configured implements Tool {
   private static class ConstructGiraphGraph_Reducer extends Reducer<IntWritable, IntWritable, IntsPair, ListOfAdjacencyNodes<GraphNode>> {
     
     private static ListOfAdjacencyNodes<GraphNode> adjacencyList = new ListOfAdjacencyNodes<GraphNode>();
-    private static final int edgeWeight = 1;
+    private static final int edgeWeight = 0;
     IntsPair outputKey = new IntsPair();
 
     @Override
