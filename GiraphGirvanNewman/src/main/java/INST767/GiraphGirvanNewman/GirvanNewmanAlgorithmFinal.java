@@ -37,7 +37,6 @@ public class GirvanNewmanAlgorithmFinal
       maxSuperSteps = (maxSuperSteps * 2) - 1;
       MAX_SUPERSTEPS.set(getConf(), maxSuperSteps);
       System.out.println("Setting max super steps to : " + maxSuperSteps);
-      fillValueList();
     }
   }
 
@@ -75,12 +74,11 @@ public class GirvanNewmanAlgorithmFinal
        */
       if (getSuperstep() == 0) {
         int sourceId = (int) vertex.getId().get();
-        // ArrayListOfIntsWritable list = new ArrayListOfIntsWritable((int)
-        // getTotalNumVertices());
-        // for (int i = 0; i <= getTotalNumVertices(); i++) {
-        // list.add(0);
-        // }
-        vertex.setValue(new ArrayListOfIntsWritable(list));
+         ArrayListOfIntsWritable list = new ArrayListOfIntsWritable((int)getTotalNumVertices());
+         for (int i = 0; i <= getTotalNumVertices(); i++) {
+           list.add(0);
+         }
+        vertex.setValue(list);
         sendMessageToAllEdges(vertex, new PairOfInts(sourceId, sourceId));
       }
       /*
