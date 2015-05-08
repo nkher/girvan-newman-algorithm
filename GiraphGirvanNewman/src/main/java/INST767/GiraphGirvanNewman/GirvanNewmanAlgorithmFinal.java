@@ -28,8 +28,6 @@ public class GirvanNewmanAlgorithmFinal
   public static BooleanConfOption PART2_SS0 = new BooleanConfOption(
       "Part2First", true, "Marks the first super step of part 2");
 
-  ArrayListOfIntsWritable list;
-
   @Override
   public void preSuperstep() {
     if (getSuperstep() == 0) {
@@ -47,13 +45,6 @@ public class GirvanNewmanAlgorithmFinal
     }
     else if (getSuperstep() == (PART_RUN_LENGTH.get(getConf()) + 1)) {
       PART2_SS0.set(getConf(), false);
-    }
-  }
-
-  public void fillValueList() {
-    list = new ArrayListOfIntsWritable((int) getTotalNumVertices());
-    for (int i = 0; i <= getTotalNumVertices(); i++) {
-      list.add(0);
     }
   }
 
