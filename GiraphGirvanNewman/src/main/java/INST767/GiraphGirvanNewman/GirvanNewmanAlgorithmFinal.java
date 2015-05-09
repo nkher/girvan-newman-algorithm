@@ -16,7 +16,7 @@ public class GirvanNewmanAlgorithmFinal
     BasicComputation<LongWritable, ArrayListOfIntsWritable, FloatWritable, PairOfInts> {
 
   public static final LongConfOption PART_RUN_LENGTH = new LongConfOption(
-      "PartRunLength", 4, "Tells us number of supersteps for each part");
+      "PartRunLength", 50, "Tells us number of supersteps for each part");
 
   public static final LongConfOption MAX_SUPERSTEPS = new LongConfOption(
       "Maximum super steps", 0, "This sets the maximum number of super steps");
@@ -55,7 +55,10 @@ public class GirvanNewmanAlgorithmFinal
           ArrayListOfIntsWritable list =
               new ArrayListOfIntsWritable((int) getTotalNumVertices());
           for (int i = 0; i <= getTotalNumVertices(); i++) {
-            list.add(0);
+            if (i == sourceId)
+              list.add(0);
+            else
+              list.add(-1);
           }
           vertex.setValue(list);
           sendMessageToAllEdges(vertex, new PairOfInts(sourceId, sourceId));
@@ -67,7 +70,7 @@ public class GirvanNewmanAlgorithmFinal
             if (sourceId != currentVertexId) {
               // Update parent in its list only if its parent is not set
               ArrayListOfIntsWritable currentList = vertex.getValue();
-              if (currentList.get(sourceId) == 0) {
+              if (currentList.get(sourceId) == -1) {
                 currentList.set(sourceId, parentId);
               }
               vertex.setValue(currentList);
