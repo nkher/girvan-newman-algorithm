@@ -35,7 +35,7 @@ FloatWritable> {
       try {
         jsonVertex.put(vertex.getId().get());
         JSONArray vertexValues = new JSONArray();
-        for (Integer i : vertex.getValue()) {
+        for (int i = 0; i < vertex.getValue().size(); i++) {
           vertexValues.put(vertex.getValue().get(i));
         }
         jsonVertex.put(vertexValues);
