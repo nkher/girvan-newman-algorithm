@@ -1,6 +1,8 @@
-package INST767.GiraphGirvanNewman;
+package INST767.GirvanNewmanGiraph;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.giraph.conf.LongConfOption;
 import org.apache.giraph.edge.Edge;
@@ -17,8 +19,9 @@ public class GirvanNewmanAlgorithmMSBFSOptimized
 
   public static final LongConfOption MAX_SUPERSTEPS =
  new LongConfOption(
-"Maximum super steps", 200,
+"Maximum super steps", 150,
           "This sets the maximum number of super steps");
+
 
   int count = 0;
 
@@ -60,31 +63,55 @@ public class GirvanNewmanAlgorithmMSBFSOptimized
         ArrayListOfIntsWritable sourceIds = new ArrayListOfIntsWritable();
         sourceIds.add(sourceId);
         sendMessageToAllEdges(vertex, new MyMessage(sourceId, sourceIds));
+        System.out.println("Sending message of size: " + sourceIds.size() + "Content: " + sourceIds.toString());
         count++;
         vertex.voteToHalt();
       } else {
         int currentVertexId = (int) vertex.getId().get();
         ArrayListOfIntsWritable currentList = vertex.getValue();
         ArrayListOfIntsWritable toSend;
+        Set<Integer> set = new HashSet<Integer>();
+
+        /*
+         * Iterate over Edges
+         */
         for (Edge<LongWritable, FloatWritable> edge : vertex.getEdges()) {
+
+          int currentEdge = (int) edge.getTargetVertexId().get(); // 1
           toSend = new ArrayListOfIntsWritable();
-          for (MyMessage msg : messages) {
+
+          /*
+           * Iterate over Messages
+           */
+          for (MyMessage msg : messages) { // 1
             int parentId = msg.getParent();
             ArrayListOfIntsWritable sourceIds = msg.getSourceList();
+
+            /*
+             * Traversing the received source list
+             */
             for (int i = 0; i < sourceIds.size(); i++) {
               if ((sourceIds.get(i) != currentVertexId) && currentList.get(sourceIds.get(i)) == 0) {
                 currentList.set(sourceIds.get(i), parentId);
               }
-              if (sourceIds.get(i) != currentVertexId) {
-                toSend.add(sourceIds.get(i));
+            }
+            
+            /* Make the set here */
+            if (parentId != currentEdge) {
+              for (int i = 0; i < sourceIds.size(); i++) {
+                set.add(sourceIds.get(i));
               }
             }
-            // if (parentId == edge.getTargetVertexId().get()) {
-            // break;
-            // }
           }
-          // Send the packet here
+
+          /* Make the actual packet here and send */
+          for (Integer i : set) {
+            toSend.add(i);
+          }
           sendMessage(edge.getTargetVertexId(), new MyMessage(currentVertexId, toSend));
+          // System.out.println("VertexId: " + currentVertexId + " Sending to: " + edge.getTargetVertexId() + " Sending message of size: " + toSend.size());
+          set.clear();
+          toSend.clear();
           count++;
         }
         vertex.voteToHalt();
