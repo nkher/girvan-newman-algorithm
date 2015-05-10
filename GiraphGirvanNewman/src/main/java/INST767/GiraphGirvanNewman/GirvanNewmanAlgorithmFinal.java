@@ -2,7 +2,16 @@ package INST767.GiraphGirvanNewman;
 
 import java.io.IOException;
 
+import org.apache.giraph.comm.messages.InMemoryMessageStoreFactory;
+import org.apache.giraph.comm.messages.MessageStoreFactory;
+import org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStore;
+import org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory;
+import org.apache.giraph.conf.BooleanConfOption;
+import org.apache.giraph.conf.ClassConfOption;
+import org.apache.giraph.conf.GiraphConstants;
+import org.apache.giraph.conf.IntConfOption;
 import org.apache.giraph.conf.LongConfOption;
+import org.apache.giraph.conf.StrConfOption;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
 import org.apache.hadoop.io.FloatWritable;
@@ -20,7 +29,15 @@ public class GirvanNewmanAlgorithmFinal
 
   public static final LongConfOption MAX_SUPERSTEPS = new LongConfOption(
       "Maximum super steps", 0, "This sets the maximum number of super steps");
+  
+  BooleanConfOption USE_OUT_OF_CORE_GRAPH = new BooleanConfOption("giraph.useOutOfCoreGraph", true,
+          "Enable out-of-core graph.");
+  
+   public static StrConfOption MESSAGES_DIRECTORY = new StrConfOption("giraph.messagesDirectory",
+   "/Users/nameshkher/Desktop/Messages", "Path");
 
+
+  int count = 0;
 
   @Override
   public void preSuperstep() {
@@ -34,8 +51,10 @@ public class GirvanNewmanAlgorithmFinal
 
   @Override
   public void postSuperstep() {
-
+    System.out.println("Messages sent: " + count);
+    count = 0;
   }
+
 
   @Override
   public void compute(
@@ -52,13 +71,9 @@ public class GirvanNewmanAlgorithmFinal
       if (getSuperstep() < PART_RUN_LENGTH.get(getConf())) {
         if (getSuperstep() == 0) {
           int sourceId = (int) vertex.getId().get();
-          ArrayListOfIntsWritable list =
-              new ArrayListOfIntsWritable((int) getTotalNumVertices());
+          ArrayListOfIntsWritable list = new ArrayListOfIntsWritable((int) getTotalNumVertices());
           for (int i = 0; i <= getTotalNumVertices(); i++) {
-            if (i == sourceId)
-              list.add(0);
-            else
-              list.add(-1);
+            list.add(0);
           }
           vertex.setValue(list);
           sendMessageToAllEdges(vertex, new PairOfInts(sourceId, sourceId));
@@ -70,7 +85,7 @@ public class GirvanNewmanAlgorithmFinal
             if (sourceId != currentVertexId) {
               // Update parent in its list only if its parent is not set
               ArrayListOfIntsWritable currentList = vertex.getValue();
-              if (currentList.get(sourceId) == -1) {
+              if (currentList.get(sourceId) == 0) {
                 currentList.set(sourceId, parentId);
               }
               vertex.setValue(currentList);
@@ -78,6 +93,7 @@ public class GirvanNewmanAlgorithmFinal
             // Send the message to all the edges by changing its parent
             PairOfInts newMessage = new PairOfInts(sourceId, currentVertexId);
             sendMessageToAllEdges(vertex, newMessage);
+            count++;
           }
         }
       }
@@ -106,11 +122,11 @@ public class GirvanNewmanAlgorithmFinal
             targetVertexId = list.get(i);
             targetVertex.set(targetVertexId);
             sendMessage(new LongWritable(targetVertexId), new PairOfInts(i, 0));
+            count++;
             /* Increment the edge */
             float currentEdgeValue = vertex.getEdgeValue(targetVertex).get();
             updatedMsgValue.set(currentEdgeValue + 1.0f);
             vertex.setEdgeValue(targetVertex, updatedMsgValue);
-            System.out.println("Super step: " + getSuperstep() + "Vertex: " + currentVertexId + " Edge: " + targetVertex.get() + " Vertex Value: " + vertex.getValue() + " Edge value: " + vertex.getEdgeValue(targetVertex));
           }
         } else {
           list = vertex.getValue();
@@ -123,11 +139,11 @@ public class GirvanNewmanAlgorithmFinal
               /* Forward the message to parent */
               targetVertex.set(parent);
               sendMessage(targetVertex, new PairOfInts(msgValue, 0));
+              count++;
               /* Increment the edge */
               float currentEdgeValue = vertex.getEdgeValue(targetVertex).get();
               updatedMsgValue.set(currentEdgeValue + 1.0f);
               vertex.setEdgeValue(targetVertex, updatedMsgValue);
-              System.out.println("Super step: " + getSuperstep() + "Vertex: " + currentVertexId + " Edge: " + targetVertex.get() + " Vertex Value: " + vertex.getValue() + " Edge value: " + vertex.getEdgeValue(targetVertex));
             }
           }
         }
