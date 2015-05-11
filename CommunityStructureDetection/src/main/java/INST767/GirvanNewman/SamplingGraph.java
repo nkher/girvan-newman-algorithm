@@ -17,12 +17,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * 
+ *
  * @author Sarika Hegde, Namesh Kher, Pramod Chavan
  *
- * Note: This parameters are specified for a particular data set. 
- * If sampling is to be done on another file then parameters must be changed. 
- *  
+ * Note: This parameters are specified for a particular data set.
+ * If sampling is to be done on another file then parameters must be changed.
+ *
  */
 public class SamplingGraph 
 {

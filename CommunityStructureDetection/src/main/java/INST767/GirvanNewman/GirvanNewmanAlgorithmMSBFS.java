@@ -13,6 +13,15 @@ import org.apache.hadoop.io.LongWritable;
 
 import tl.lin.data.array.ArrayListOfIntsWritable;
 
+/***
+ *
+ * Part 1 of the community detection algorithm that creates the parent array and
+ * stores it in the vertex value lists which would be backtracked in the part 2.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class GirvanNewmanAlgorithmMSBFS
     extends
     BasicComputation<LongWritable, ArrayListOfIntsWritable, FloatWritable, MyMessage> {

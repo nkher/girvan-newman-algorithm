@@ -11,6 +11,16 @@ import org.apache.hadoop.io.LongWritable;
 import tl.lin.data.array.ArrayListOfIntsWritable;
 import tl.lin.data.pair.PairOfInts;
 
+/***
+ *
+ * Part 2 of the community detection algorithm. Travserses the parent array for
+ * each vertex parallely and increments the edge counts which come on the
+ * shortest paths from each source to destination pair.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class GirvanNewmanAlgorithmBacktracking
     extends
     BasicComputation<LongWritable, ArrayListOfIntsWritable, FloatWritable, PairOfInts> {

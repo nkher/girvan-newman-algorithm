@@ -6,6 +6,14 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.WritableComparable;
 
+/***
+ *
+ * Data Structure of the graph node used for creating the graph.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class GraphNode implements WritableComparable<GraphNode> {
 
   private int left, right;

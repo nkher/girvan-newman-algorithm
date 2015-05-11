@@ -26,6 +26,13 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 
+/***
+ * Constructs the graph from the provided sample input in a format that giraph
+ * accepts
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
 
 public class ConstructGiraphGraph extends Configured implements Tool {
 

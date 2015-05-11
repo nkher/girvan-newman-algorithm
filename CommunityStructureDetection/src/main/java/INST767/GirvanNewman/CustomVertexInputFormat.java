@@ -17,6 +17,14 @@ import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
 
+/***
+ * Overrided the existing Vertex input format to accept an array list of values
+ * for vertex value.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class CustomVertexInputFormat extends TextVertexInputFormat<LongWritable, ArrayListOfIntsWritable, FloatWritable> {
   
   @Override

@@ -7,6 +7,14 @@ import java.util.ArrayList;
 
 import org.apache.hadoop.io.Writable;
 
+/***
+ *
+ * Data Structure used in the graph.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class ListOfAdjacencyNodes<E extends Writable> extends ArrayList<E> implements Writable {
 
   /**

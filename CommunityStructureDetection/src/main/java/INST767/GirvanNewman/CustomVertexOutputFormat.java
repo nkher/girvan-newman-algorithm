@@ -14,6 +14,14 @@ import tl.lin.data.array.ArrayListOfIntsWritable;
 
 import java.io.IOException;
 
+/***
+ * Overrided the existing Vertex output format to output an array list of values
+ * for vertex value.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class CustomVertexOutputFormat extends TextVertexOutputFormat<LongWritable, ArrayListOfIntsWritable,
 FloatWritable> {
   @Override

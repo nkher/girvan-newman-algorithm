@@ -10,6 +10,14 @@ import org.apache.hadoop.io.WritableComparator;
 import tl.lin.data.array.ArrayListOfIntsWritable;
 import tl.lin.data.pair.PairOfInts;
 
+/***
+ *
+ * Custom message used for sending messages accross super steps.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class MyMessage implements WritableComparable<MyMessage> {
   private int parentId;
   private ArrayListOfIntsWritable sourceIds;

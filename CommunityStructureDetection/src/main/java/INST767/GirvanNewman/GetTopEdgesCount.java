@@ -30,6 +30,14 @@ import org.json.JSONArray;
 
 import tl.lin.data.pair.PairOfInts;
 
+/***
+ *
+ * Outputs the top structural holes of the sampled graph.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class GetTopEdgesCount {
 
   private static final String INPUT = "input";

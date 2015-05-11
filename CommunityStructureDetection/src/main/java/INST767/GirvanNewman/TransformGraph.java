@@ -10,6 +10,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+/***
+ *
+ * This function transforms the graph by assigning alias node numbers to the
+ * graph. It also creates a key file which contains the node mappings from
+ * original to the alias node numbers.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class TransformGraph {
 
   int nodeCounter = 1;

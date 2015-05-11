@@ -6,6 +6,14 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.WritableComparable;
 
+/***
+ *
+ * Data Structure for the vertex key used for creating the graph.
+ *
+ * @author Namesh Kher, Sarika Hegde, Pramod Chavan
+ *
+ */
+
 public class IntsPair implements WritableComparable<IntsPair> {
 
   private int left, right;
