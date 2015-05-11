@@ -82,8 +82,7 @@ public class GetTopEdgesCount {
   public void printTopEdges(String hdfsPath, int top, String keyFilePath) throws IOException {
     readNodeMappings(keyFilePath);
     System.out.println("Top Edges are: ");
-    Configuration conf = new Configuration();
-    FileSystem fs = FileSystem.get(conf);
+    FileSystem fs = FileSystem.get(new Configuration());
     Path path = new Path(hdfsPath);
 
     BufferedReader bufferedReader = null;

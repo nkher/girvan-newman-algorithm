@@ -86,7 +86,7 @@ Part Two - Backtracking on Parent Array
 -----------------------------------------
 
 <i><b>Note: If the below commands do not function properly, it might be because of the formatting of the md file. You can pick this command
-from the other file named 'Enron300Commands'  (step 6) which is present in the main folder of the project.</b></i>
+from the other file named 'Enron300Commands'  (step 6) which is present in the main folder of the project. Also make sure the name of the part file created after the part one run. As we run the part 2 on the output of part 1.</b></i>
 
 hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apache.giraph.GiraphRunner \
 -D mapred.child.java.opts="-Xms10240m -Xmx15360m" \
@@ -117,7 +117,7 @@ Command to run:
 
 mvn exec:java -Dexec.mainClass=INST767.GirvanNewman.GetTopEdgesCount -Dexec.args="-input PATH_OF_YOUR_RESULTS_FILE -top 10 -key PATH_OF_YOUR_KEY_FILE"
 
-mvn exec:java -Dexec.mainClass=INST767.GirvanNewman.GetTopEdgesCount -Dexec.args="-input Enron300_Results/part-m-00000 -top 10 -key EnronSample300/key_enron_300"
+mvn exec:java -Dexec.mainClass=INST767.GirvanNewman.GetTopEdgesCount -Dexec.args="-input part-m-00000 -top 10 -key EnronSample300/key_enron_300"
 
 
 
