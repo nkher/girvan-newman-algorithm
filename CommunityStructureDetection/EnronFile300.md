@@ -45,13 +45,13 @@ This step is also already performedon the input sampled and transformed graph.
 Step 5: Put the data files into hdfs
 --------------------------------------
 
-After step 1 you a have fresh clone of the repo. You must cd into the CommunityStructureDetection folder and execute the following commands.
+After step 1 you a have fresh clone of the repo. You must cd into the CommunityStructureDetection folder and execute the following commands. 
 
 hadoop fs -mkdir Input_EnronSample
 
-hadoop fs -put EnronSample300/key_enron_300 Input_EnronSample/
-
 hadoop fs -put EnronSample300/enron_sample_300.txt Input_EnronSample/
+
+This way you out your files into hdfs.
 
 Note: 
 
@@ -105,10 +105,17 @@ This step generates the edges that have the highest count. Highest count means t
 1. enron_sample_300.txt (The graph on which the algorithm would run)
 2. key_enron_300 (The key containing the actual to alias number node mappings)
 
+First we need to get the results from hsfd into out existing project directory.
+
+1. hadoop fs -get Enron300_Results/part-m-00000
+
 Command to run:
 ----------------
 
 mvn exec:java -Dexec.mainClass=INST767.GirvanNewman.GetTopEdgesCount -Dexec.args="-input PATH_OF_YOUR_RESULTS_FILE -top 10 -key PATH_OF_YOUR_KEY_FILE"
+
+mvn exec:java -Dexec.mainClass=INST767.GirvanNewman.GetTopEdgesCount -Dexec.args="-input Enron300_Results/part-m-00000 -top 10 -key EnronSample300/key_enron_300"
+
 
 
 
