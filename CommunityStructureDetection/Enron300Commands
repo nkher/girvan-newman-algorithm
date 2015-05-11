@@ -1,0 +1,90 @@
+--------------------------
+Step 1: Clean the package
+--------------------------
+
+(Profile For Cluster)
+mvn -Phadoop_2 -fae -DskipTests clean package 
+
+(Profile For Local Machine)
+mvn package -DskipTests -Dhadoop=non_secure -P hadoop_2.0.0 
+
+
+-------------------------
+Step 2: Sample the Graph
+-------------------------
+
+------------------------
+Step 3: Transform Graph
+------------------------
+
+--------------------------------
+Step 4: Construct Giraph Graph
+--------------------------------
+
+hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar INST767.GirvanNewman.ConstructGiraphGraph \
+  -input enron_sample_300_transformed.txt -output Enron300Transformed -numReducers 1
+
+--------------------------------------
+Step 5: Put the data files into hdfs
+--------------------------------------
+
+Note: The 'key_enron_300' file is the mappings from actual to alias node mappings and the 'enron_sample_300.txt' file is the sampled graph.
+These files are created from the above steps 2, 3 and 4.
+
+hadoop fs mkdir Input_EnronSample
+
+hadoop fs -put key_enron_300 Input_EnronSample/
+
+hadoop fs -put enron_sample_300.txt Input_EnronSample/
+
+  
+--------------------------------------------
+Step 6: Running the Girvan Newman Algorithm
+--------------------------------------------
+
+Part One - Multi Source BFS - Parent Array Creation
+-------------------------------------------------------
+
+hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apache.giraph.GiraphRunner \
+-D mapred.child.java.opts="-Xms10240m -Xmx15360m" \
+-D giraph.useSuperstepCounters=false \
+-D mapreduce.job.counters.limit=500 \
+-D giraph.messageStoreFactoryClass="org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory" \
+-D giraph.messagesDirectory="/Users/nameshkher/Desktop/Messages" \
+INST767.GirvanNewman.GirvanNewmanAlgorithmMSBFS \
+-vif INST767.GirvanNewman.CustomVertexInputFormat \
+-vip Input_EnronSample/enron_sample_300.txt \
+-vof INST767.GirvanNewman.CustomVertexOutputFormat \
+-op Enron300_MSBFS \-ca giraph.SplitMasterWorker=false \  -w 1
+
+
+Part Two - Backtracking on Parent Array
+-----------------------------------------
+
+hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apache.giraph.GiraphRunner \
+-D mapred.child.java.opts="-Xms10240m -Xmx15360m" \
+-D giraph.useSuperstepCounters=false \
+-D mapreduce.job.counters.limit=500 \
+-D giraph.messageStoreFactoryClass="org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory" \
+-D giraph.messagesDirectory="/Users/nameshkher/Desktop/Messages" \
+INST767.GirvanNewman.GirvanNewmanAlgorithmBacktracking \
+-vif INST767.GirvanNewman.CustomVertexInputFormat \
+-vip Enron300_MSBFS/part-m-00001 \
+-vof INST767.GirvanNewman.CustomVertexOutputFormat \
+-op Enron300_Results \-ca giraph.SplitMasterWorker=false \  -w 1
+
+
+------------------------
+Step 7: Final Results
+------------------------
+
+mvn exec:java -Dexec.mainClass=INST767.GirvanNewman.GetTopEdgesCount \ -Dexec.args="-input Enron300_Results/part-m-00001 -top 10 -key Input_EnronSample/key_enron_300"
+
+
+
+
+
+
+
+
+
