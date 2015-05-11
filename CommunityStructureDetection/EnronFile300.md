@@ -69,23 +69,14 @@ Part One - Multi Source BFS - Parent Array Creation
 
 
 hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apache.giraph.GiraphRunner \
-
 -D mapred.child.java.opts="-Xms10240m -Xmx15360m" \
-
 -D giraph.useSuperstepCounters=false \
-
 -D mapreduce.job.counters.limit=500 \
-
 -D giraph.messageStoreFactoryClass="org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory" \
-
 INST767.GirvanNewman.GirvanNewmanAlgorithmMSBFS \
-
 -vif INST767.GirvanNewman.CustomVertexInputFormat \
-
 -vip Input_EnronSample/enron_sample_300.txt \
-
 -vof INST767.GirvanNewman.CustomVertexOutputFormat \
-
 -op Enron300_MSBFS -w 1 -ca mapred.job.tracker=localhost:5431
 
 
@@ -94,26 +85,15 @@ Part Two - Backtracking on Parent Array
 
 
 hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apache.giraph.GiraphRunner \
-
 -D mapred.child.java.opts="-Xms10240m -Xmx15360m" \
-
 -D giraph.useSuperstepCounters=false \
-
 -D mapreduce.job.counters.limit=500 \
-
 -D giraph.messageStoreFactoryClass="org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory" \
-
 INST767.GirvanNewman.GirvanNewmanAlgorithmBacktracking \
-
 -vif INST767.GirvanNewman.CustomVertexInputFormat \
-
 -vip Enron300_MSBFS/part-m-00000 \
-
 -vof INST767.GirvanNewman.CustomVertexOutputFormat \
-
 -op Enron300_Results -w 1 -ca mapred.job.tracker=localhost:5431
-
-
 
 ------------------------
 Step 7: Final Results
