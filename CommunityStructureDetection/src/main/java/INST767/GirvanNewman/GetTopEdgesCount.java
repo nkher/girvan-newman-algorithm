@@ -30,7 +30,7 @@ import org.json.JSONArray;
 
 import tl.lin.data.pair.PairOfInts;
 
-public class GetTopEdgesCount extends Configured {
+public class GetTopEdgesCount {
 
   private static final String INPUT = "input";
   private static final String TOP = "top";
