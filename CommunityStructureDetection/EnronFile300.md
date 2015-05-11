@@ -67,8 +67,8 @@ Step 6: Running the Girvan Newman Algorithm
 Part One - Multi Source BFS - Parent Array Creation
 -------------------------------------------------------
 
-If the below commands do not function properly, it might be because of the formatting of the md file. You can pick this command
-from the other file named 'Enron300Commands' which is present in the main folder of the project.
+<i><b>Note: If the below commands do not function properly, it might be because of the formatting of the md file. You can pick this command
+from the other file named 'Enron300Commands'  (step 6) which is present in the main folder of the project.</b></i>
 
 hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apache.giraph.GiraphRunner \
 -D mapred.child.java.opts="-Xms10240m -Xmx15360m" \
@@ -85,8 +85,8 @@ INST767.GirvanNewman.GirvanNewmanAlgorithmMSBFS \
 Part Two - Backtracking on Parent Array
 -----------------------------------------
 
-If the below commands do not function properly, it might be because of the formatting of the md file. You can pick this command
-from the other file named 'Enron300Commands' which is present in the main folder of the project.
+<i><b>Note: If the below commands do not function properly, it might be because of the formatting of the md file. You can pick this command
+from the other file named 'Enron300Commands'  (step 6) which is present in the main folder of the project.</b></i>
 
 hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apache.giraph.GiraphRunner \
 -D mapred.child.java.opts="-Xms10240m -Xmx15360m" \
