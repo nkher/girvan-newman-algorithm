@@ -21,14 +21,16 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.util.ToolRunner;
 import org.json.JSONArray;
 
 import tl.lin.data.pair.PairOfInts;
 
-public class GetTopEdgesCount {
+public class GetTopEdgesCount extends Configured {
 
   private static final String INPUT = "input";
   private static final String TOP = "top";
@@ -39,10 +41,9 @@ public class GetTopEdgesCount {
   HashMap<Integer, Integer> nodeMappings = new HashMap<Integer, Integer>();
 
   public void readNodeMappings(String keyFilePath) throws IOException {
+    System.out.println(keyFilePath);
     System.out.println("Top Edges are: ");
-    Configuration conf = new Configuration();
-    org.apache.hadoop.fs.FileSystem fs =
-        org.apache.hadoop.fs.FileSystem.get(conf);
+    FileSystem fs = FileSystem.get(new Configuration());
     Path path = new Path(keyFilePath);
 
     BufferedReader bufferedReader = null;
@@ -66,16 +67,15 @@ public class GetTopEdgesCount {
         nodeMappings.put(key, value);
       }
     } catch (Exception e) {
-    } finally {
-      bufferedReader.close();
     }
+    bufferedReader.close();
   }
 
   public void printTopEdges(String hdfsPath, int top, String keyFilePath) throws IOException {
     readNodeMappings(keyFilePath);
     System.out.println("Top Edges are: ");
     Configuration conf = new Configuration();
-    org.apache.hadoop.fs.FileSystem fs = org.apache.hadoop.fs.FileSystem.get(conf);
+    FileSystem fs = FileSystem.get(conf);
     Path path = new Path(hdfsPath);
 
     BufferedReader bufferedReader = null;
@@ -117,9 +117,8 @@ public class GetTopEdgesCount {
         }
       }
     } catch (Exception e) {
-    } finally {
-      bufferedReader.close();
     }
+      bufferedReader.close();
     edgeCounts = sortEdgesHashMap();
     // printEdgesHashMap();
     printTopEdgesHashMap(top);
