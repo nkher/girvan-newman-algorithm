@@ -74,9 +74,7 @@ hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apac
 
 -D giraph.useSuperstepCounters=false \
 
--D mapreduce.job.counters.limit=500 \
-
--D giraph.messageStoreFactoryClass="org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory" \
+-D mapreduce.job.counters.limit=500 \-D giraph.messageStoreFactoryClass="org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory" \
 
 INST767.GirvanNewman.GirvanNewmanAlgorithmMSBFS \
 
@@ -99,9 +97,7 @@ hadoop jar target/CommunityStructureDetection-0.0.1-SNAPSHOT-fatjar.jar org.apac
 
 -D giraph.useSuperstepCounters=false \
 
--D mapreduce.job.counters.limit=500 \
-
--D giraph.messageStoreFactoryClass="org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory" \
+-D mapreduce.job.counters.limit=500 \-D giraph.messageStoreFactoryClass="org.apache.giraph.comm.messages.out_of_core.DiskBackedMessageStoreFactory" \
 
 INST767.GirvanNewman.GirvanNewmanAlgorithmBacktracking \
 
